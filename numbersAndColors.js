@@ -1,5 +1,8 @@
-import colors from 'colors'
-const processes = process.argv.slice(2);
+import colors from 'colors';
+import minimist from 'minimist';
+
+const minArg = minimist(process.argv.slice(2));
+const processes = minArg._
 
 const isPrime = (n) => {
     for (let i = 2; i <= Math.sqrt(n); i++)
