@@ -14,7 +14,11 @@
     "colors": "^1.4.0"
   },
   "dependencies": {
+    "@miqilin21/node-player": "^1.0.11",
     "ansi": "^0.3.1",
-    "minimist": "^1.2.6"
+    "commander": "^9.4.0",
+    "inquirer": "^9.0.2",
+    "minimist": "^1.2.6",
+    "yargs": "^17.5.1"
   }
 }
