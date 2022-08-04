@@ -16,7 +16,7 @@ program.command('sort')
         const sortedNumbers = numbers.sort();
         const num = sortedNumbers.at(-1);
         const cursor = ansi(process.stdout)
-        cursor.brightCyan().bg.white().write(`${num}`).bg.reset();
+        cursor.brightCyan().bg.black().write(`${num}`).bg.reset();
         cursor.reset();
     });
 
