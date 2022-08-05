@@ -12,7 +12,6 @@ program.command('sort')
     .argument('<[numbers]>', 'массив для ввода')
     .action((str) => {
         const numbers = JSON.parse(str);
-        console.log(numbers)
         const sortedNumbers = numbers.sort();
         const num = sortedNumbers.at(-1);
         const cursor = ansi(process.stdout)
