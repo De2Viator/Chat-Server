@@ -1,7 +1,7 @@
-const processes = process.argv.slice(2);
-processes.forEach(date => {
+const args = process.argv.slice(2);
+args.forEach((date: string) => {
     const dateArr = date.split('-');
-    const futureTime = new Date(dateArr[3], dateArr[2] - 1, dateArr[1], dateArr[0]);
+    const futureTime = new Date(+dateArr[3], +dateArr[2] - 1, +dateArr[1], +dateArr[0]);
     setInterval(() => {
         const realTime = new Date();
         let year = 0;

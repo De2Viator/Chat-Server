@@ -10,7 +10,7 @@ program
 program.command('sort')
     .description('В консоль отобразится наибольшее число')
     .argument('<[numbers]>', 'массив для ввода')
-    .action((str) => {
+    .action((str: string) => {
         const numbers = JSON.parse(str);
         const sortedNumbers = numbers.sort();
         const num = sortedNumbers.at(-1);

@@ -1,10 +1,10 @@
-import colors from 'colors';
-import minimist from 'minimist';
+const colors = require('colors');
+const minimist = require('minimist');
 
 const minArg = minimist(process.argv.slice(2));
 const processes = minArg._
 
-const isPrime = (n) => {
+const isPrime = (n: number) => {
     for (let i = 2; i <= Math.sqrt(n); i++)
         if (n % i == 0) {
             return false;

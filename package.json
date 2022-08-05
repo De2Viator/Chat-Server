@@ -5,18 +5,20 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "cli":"node cli.js",
-    "blackjack-analysis":"node blackjack-analysis.js",
-    "blackjack":"node blackjack.js",
-    "numbersAndColors":"nodemon numbersAndColors.js 11 22 33",
-    "date":"nodemon date.js 16-12-12-2024"
+    "cli": "ts-node cli.ts [2,3,4]",
+    "blackjack-analysis": "ts-node blackjack-analysis.ts",
+    "blackjack": "ts-node blackjack.mts",
+    "numbersAndColors": "nodemon numbersAndColors.ts 11 22 33",
+    "date": "nodemon date.ts 16-12-12-2024"
   },
-  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "colors": "^1.4.0"
+    "@types/ansi": "^0.3.3",
+    "@types/inquirer": "^9.0.0",
+    "colors": "^1.4.0",
+    "ts-node": "^10.9.1"
   },
   "dependencies": {
     "@miqilin21/node-player": "^1.0.11",
