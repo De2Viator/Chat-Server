@@ -1,5 +1,3 @@
-import { setDate } from "./date"
-
 describe('test date', () => {
     it('test date',() => {
         const date = '16-12-12-2024'

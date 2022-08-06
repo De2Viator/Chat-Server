@@ -73,7 +73,8 @@ const ask = () => {
 
 const logResult = () => {
     if (player.isEndGame && enemy.isEndGame) {
-        fs.writeFile('./logs.txt', `Очки игрока:${player.points} 
+        fs.writeFile('./logs.txt',
+            `Очки игрока:${player.points} 
 Очки противника:${enemy.points}`,
             { flag: 'a', encoding: 'utf-8' }, (err: Error | null) => {
 

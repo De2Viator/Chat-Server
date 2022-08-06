@@ -9,7 +9,8 @@
     "blackjack": "ts-node blackjack.mts",
     "numbersAndColors": "nodemon numbersAndColors.ts 11 22 33",
     "date": "nodemon date.ts 16-12-12-2024",
-    "test": "jest"
+    "test": "jest",
+    "lint": "npm run eslint"
   },
   "keywords": [],
   "author": "",
@@ -18,7 +19,12 @@
     "@types/ansi": "^0.3.3",
     "@types/inquirer": "^9.0.0",
     "@types/jest": "^28.1.6",
+    "@typescript-eslint/eslint-plugin": "^5.32.0",
+    "@typescript-eslint/parser": "^5.32.0",
     "colors": "^1.4.0",
+    "eslint": "^8.21.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
     "jest": "^28.1.3",
     "ts-jest": "^28.0.7",
     "ts-node": "^10.9.1"
