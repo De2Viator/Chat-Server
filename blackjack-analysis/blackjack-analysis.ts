@@ -1,7 +1,7 @@
 import fs from 'fs';
 import colors from 'colors';
 
-fs.readFile('logs.txt', 'utf-8', (err, data) => {
+export const analysisGame = (data: string) => {
     const playerGames: string[] | null | number = data.match(/Игрок (победил|проиграл)/g);
     let playerWins: string[] | null | number = data.match(/Игрок победил/g);
     let playerDefeats: string[] | null | number = data.match(/Игрок проиграл/g);
@@ -36,4 +36,18 @@ fs.readFile('logs.txt', 'utf-8', (err, data) => {
     console.log(colors.red(`Кол-во проигрышей игрока: ${+playerDefeats}`));
     console.log(colors.cyan(`Кол-во выигрышей подряд: ${userMaxWin}`));
     console.log(colors.white(`Кол-во проигрышей подряд: ${userMaxDefeat}`));
+
+    return {
+        playerPlays:playerWins + playerDefeats,
+        userPercentOfWin,
+        playerWins,
+        playerDefeats,
+        userMaxWin,
+        userMaxDefeat,
+    }
+}
+
+fs.readFile('logs.txt', 'utf-8', (err, data) => {
+    analysisGame(data);
 })
+

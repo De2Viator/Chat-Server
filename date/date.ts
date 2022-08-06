@@ -1,5 +1,5 @@
 const args = process.argv.slice(2);
-args.forEach((date: string) => {
+export const setDate = (date: string) => {
     const dateArr = date.split('-');
     const futureTime = new Date(+dateArr[3], +dateArr[2] - 1, +dateArr[1], +dateArr[0]);
     setInterval(() => {
@@ -41,4 +41,7 @@ args.forEach((date: string) => {
         const time = `${hour}-${day}-${month}-${year}`;
         console.log(time)
     }, 1000);
+}
+args.forEach((date: string) => {
+    setDate(date);
 })

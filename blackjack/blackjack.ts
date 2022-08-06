@@ -1,11 +1,10 @@
 const inquirer = require('inquirer');
 const consoleColors = require('colors');
 const fs = require('fs');
-
 const parhArgs = process.argv.slice(2);
 const path = parhArgs[0];
 
-class Player {
+export class Player {
     name: string = '';
     constructor(name: string) {
         this.name = name;
