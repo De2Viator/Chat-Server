@@ -15,5 +15,8 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "no-plusplus":"off",
+        "no-param-reassign":"off",
+        "no-undef":"off",
     }
 }
