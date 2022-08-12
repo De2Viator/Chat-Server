@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest",
     "lint": "npm run eslint",
-    "web-cli": "nodemon web-cli/cli.ts"
+    "web-cli": "nodemon web-cli/cli.ts",
+    "endpoints": "nodemon endpoints/server.ts"
   },
   "keywords": [],
   "author": "",
