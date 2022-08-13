@@ -9,7 +9,8 @@
     "web-cli": "nodemon web-cli/cli.ts",
     "endpoints": "nodemon endpoints/server.ts",
     "server": "json-server --watch json-server/db.json",
-    "news":"nodemon news/news.ts"
+    "news": "nodemon news/news.ts",
+    "translate": "nodemon translate/translate.ts"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +32,7 @@
     "typescript": "^4.7.4"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "isomorphic-fetch": "^3.0.0",
     "json-server": "^0.17.0",
     "node-fetch": "^3.2.10",
