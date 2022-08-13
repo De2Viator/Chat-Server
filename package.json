@@ -8,7 +8,8 @@
     "lint": "npm run eslint",
     "web-cli": "nodemon web-cli/cli.ts",
     "endpoints": "nodemon endpoints/server.ts",
-    "server": "json-server --watch json-server/db.json"
+    "server": "json-server --watch json-server/db.json",
+    "news":"nodemon news/news.ts"
   },
   "keywords": [],
   "author": "",
