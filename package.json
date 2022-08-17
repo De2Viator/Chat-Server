@@ -6,11 +6,7 @@
   "scripts": {
     "test": "jest",
     "lint": "npm run eslint",
-    "web-cli": "nodemon web-cli/cli.ts",
-    "endpoints": "nodemon endpoints/server.ts",
-    "server": "json-server --watch json-server/db.json",
-    "news": "nodemon news/news.ts",
-    "translate": "nodemon translate/translate.ts"
+    "server":"nodemon server/server.ts"
   },
   "keywords": [],
   "author": "",
@@ -35,6 +31,7 @@
     "axios": "^0.27.2",
     "isomorphic-fetch": "^3.0.0",
     "json-server": "^0.17.0",
+    "mongoose": "^6.5.2",
     "node-fetch": "^3.2.10",
     "nodemon": "^2.0.19"
   }

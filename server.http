@@ -1,0 +1,45 @@
+GET http://localhost:3030/chats/ HTTP/1.1
+###
+POST http://localhost:3030/chats HTTP/1.1
+content-type: application/json
+
+{
+    "name": "weile"
+}
+###
+PUT http://localhost:3030/chats/62fd58d90eb1c780e902e661 HTTP/1.1
+content-type: application/json
+
+{
+    "name":"Test"
+}
+
+###
+DELETE http://localhost:3030/chats/62fd59330eb1c780e902e669 HTTP/1.1
+
+###
+GET http://localhost:3030/messages/62fd4db32e35fb0aa428f541 HTTP/1.1
+
+###
+POST http://localhost:3030/messages/62fd4db32e35fb0aa428f541 HTTP/1.1
+content-type: application/json
+
+{
+    "name": "weile",
+    "message":"hello guys",
+    "chatId":"62fd4db32e35fb0aa428f541"
+}
+
+###
+
+PUT http://localhost:3030/messages/62fd59b40eb1c780e902e672 HTTP/1.1
+content-type: application/json
+
+{
+    "name": "weile",
+    "message":"hello guys, my bad",
+    "chatId":"62fd4db32e35fb0aa428f541"
+}
+
+###
+DELETE http://localhost:3030/messages/62fd59b40eb1c780e902e672 HTTP/1.1
