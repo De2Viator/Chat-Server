@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import winston from 'winston';
 import cors from 'cors';
+import helmet from 'helmet';
 import { routerChat } from './routes/chat';
 import { routerMessages } from './routes/message';
 
@@ -31,6 +32,8 @@ app.use(cors({
     origin:'http://localhost:3030/',
     optionsSuccessStatus:200
 }))
+
+app.use(helmet())
 
 app.use('/chats',routerChat)
 app.use('/messages', routerMessages);
