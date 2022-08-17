@@ -1,7 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import winston from 'winston';
-
+import cors from 'cors';
 import { routerChat } from './routes/chat';
 import { routerMessages } from './routes/message';
 
@@ -17,15 +17,20 @@ const logger = winston.createLogger({
     ]
 })
 
+app.use((req,res,next) => {
+    logger.log('info',`${req.method} ${req.url}`);
+    next();
+})
+
 app.use(express.json());
 app.use(express.urlencoded({
     extended:true
 }));
 
-app.use((req,res,next) => {
-    logger.log('info',`${req.method} ${req.url}`);
-    next();
-})
+app.use(cors({
+    origin:'http://localhost:3030/',
+    optionsSuccessStatus:200
+}))
 
 app.use('/chats',routerChat)
 app.use('/messages', routerMessages);
