@@ -5,8 +5,12 @@ import cors from 'cors';
 import helmet from 'helmet';
 import { routerChat } from './routes/chat';
 import { routerMessages } from './routes/message';
+import 'dotenv/config';
+import { config } from 'dotenv';
+config();
 
-mongoose.connect('mongodb://localhost:27017/local')
+console.log(process.env.MONGO)
+mongoose.connect(process.env.MONGO as string)
 const app = express();
 const logger = winston.createLogger({
     format:winston.format.simple(),
