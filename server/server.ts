@@ -9,9 +9,9 @@ import 'dotenv/config';
 import { config } from 'dotenv';
 config();
 
-console.log(process.env.MONGO)
 mongoose.connect(process.env.MONGO as string)
 const app = express();
+const PORT = process.env.PORT || 3030
 const logger = winston.createLogger({
     format:winston.format.simple(),
     transports:[
@@ -43,6 +43,6 @@ app.use('/chats',routerChat)
 app.use('/messages', routerMessages);
 
 
-app.listen(3030, () => {
-  console.log("Application listen http://localhost:3030/");
+app.listen(PORT, () => {
+  console.log(`Application listen http://localhost:${PORT}/`);
 });
