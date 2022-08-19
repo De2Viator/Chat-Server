@@ -41,6 +41,9 @@ app.use(helmet())
 
 app.use('/chats',routerChat)
 app.use('/messages', routerMessages);
+app.get('/test',(req,res) => {
+    res.status(200).send('Work')
+})
 
 
 app.listen(PORT, () => {
