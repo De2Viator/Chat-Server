@@ -13,7 +13,7 @@ const message_1 = require("./routes/message");
 require("dotenv/config");
 const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)();
-mongoose_1.default.connect("mongodb+srv://De2Viator:Sadf2005@cluster0.mxly6ky.mongodb.net/Messenger");
+mongoose_1.default.connect('mongodb+srv://De2Viator:Sadf2005@cluster0.mxly6ky.mongodb.net/Messenger');
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 3030;
 const logger = winston_1.default.createLogger({
