@@ -7,7 +7,6 @@
     "test": "jest",
     "lint": "npm run eslint",
     "server": "node dist/server/server.js",
-    "server:dev": "nodemon server/server.ts",
     "build":"tsc"
   },
   "keywords": [
