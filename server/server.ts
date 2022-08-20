@@ -32,10 +32,10 @@ app.use(express.urlencoded({
     extended:true
 }));
 
-/*app.use(cors({
+app.use(cors({
     origin:'http://localhost:3030/',
     optionsSuccessStatus:200
-}))*/
+}))
 
 app.use(helmet())
 

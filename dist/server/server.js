@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const winston_1 = __importDefault(require("winston"));
+const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
 const chat_1 = require("./routes/chat");
 const message_1 = require("./routes/message");
@@ -32,10 +33,10 @@ app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({
     extended: true
 }));
-/*app.use(cors({
-    origin:'http://localhost:3030/',
-    optionsSuccessStatus:200
-}))*/
+app.use((0, cors_1.default)({
+    origin: 'http://localhost:3030/',
+    optionsSuccessStatus: 200
+}));
 app.use((0, helmet_1.default)());
 app.use('/chats', chat_1.routerChat);
 app.use('/messages', message_1.routerMessages);
