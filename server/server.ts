@@ -11,7 +11,7 @@ config();
 
 mongoose.connect(process.env.MONGO as string)
 const app = express();
-const PORT = process.env.PORT || 3030
+const PORT = process.env.PORT
 const logger = winston.createLogger({
     format:winston.format.simple(),
     transports:[
@@ -33,7 +33,7 @@ app.use(express.urlencoded({
 }));
 
 app.use(cors({
-    origin:'http://localhost:3030/',
+    origin:`http://localhost:${PORT}/`,
     optionsSuccessStatus:200
 }))
 
