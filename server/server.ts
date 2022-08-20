@@ -9,7 +9,7 @@ import 'dotenv/config';
 import { config } from 'dotenv';
 config();
 
-mongoose.connect("mongodb+srv://De2Viator:Sadf2005@cluster0.mxly6ky.mongodb.net/Messenger")
+mongoose.connect(process.env.MONGO as string)
 const app = express();
 const PORT = process.env.PORT || 3030
 const logger = winston.createLogger({
