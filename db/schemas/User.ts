@@ -2,15 +2,25 @@ import { Model, model, Schema } from "mongoose";
 
 export interface Users {
     name:string,
+    password:string,
+    googleId:string,
 }
 
-const usersSchema:Schema<Users> = new Schema({
+const userSchema:Schema<Users> = new Schema({
     name: {
         type:String,
-        required:true,
+        required:false,
     },
+    password: {
+        type: String,
+        required: false,
+    },
+    googleId: {
+        type: String,
+        required: false,
+    }
 },{
-    collection:'Messages'
+    collection:'Users'
 });
 
-export const users:Model<Users> = model('Users',usersSchema)
+export const User:Model<Users> = model('User',userSchema)
