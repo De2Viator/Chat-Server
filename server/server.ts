@@ -10,14 +10,18 @@ import 'dotenv/config';
 import cookieParser from 'cookie-parser';
 import { config } from 'dotenv';
 import jwt from 'jsonwebtoken';
+import http from 'http';
 import { Auth } from '../db/schemas/Auth';
 import session from 'express-session';
 import passport from 'passport';
+import { Server } from "socket.io"; 
 
 config();
 
 mongoose.connect(process.env.MONGO as string)
 const app = express();
+const server = http.createServer(app);
+const socket = new Server(server);
 const PORT = process.env.PORT
 const logger = winston.createLogger({
     format:winston.format.simple(),
@@ -89,7 +93,9 @@ app.get('/test',(req,res) => {
     res.status(200).send('Work')
 })
 
-
-app.listen(PORT, () => {
+socket.on('connection',(socket) => {
+    console.log('connected')
+})
+server.listen(PORT, () => {
   console.log(`Application listen http://localhost:${PORT}/`);
 });
