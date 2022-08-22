@@ -1,29 +1,28 @@
-import express from 'express';
+import express, { Application } from 'express';
 import mongoose from 'mongoose';
-import winston from 'winston';
+import winston, { Logger } from 'winston';
 import cors from 'cors';
 import helmet from 'helmet';
 import { routerChat } from './routes/chat';
 import { routerMessages } from './routes/message';
-import { routerAuth } from './routes/auth';
+import { authMiddleware, routerAuth } from './routes/auth';
 import 'dotenv/config';
 import cookieParser from 'cookie-parser';
 import { config } from 'dotenv';
-import jwt from 'jsonwebtoken';
 import http from 'http';
-import { Auth } from '../db/schemas/Auth';
 import session from 'express-session';
 import passport from 'passport';
-import { Server } from "socket.io"; 
+import { Server, Socket } from "socket.io"; 
+import { Message } from '../db/schemas/Message';
 
 config();
 
 mongoose.connect(process.env.MONGO as string)
-const app = express();
+const app: Application = express();
 const server = http.createServer(app);
-const socket = new Server(server);
-const PORT = process.env.PORT
-const logger = winston.createLogger({
+const io: Server = new Server(server);
+const PORT:string = process.env.PORT as string
+const logger:Logger = winston.createLogger({
     format:winston.format.simple(),
     transports:[
         new winston.transports.File({
@@ -51,9 +50,7 @@ app.use(express.urlencoded({
 }));
 
 app.use(cors({
-    origin:`http://localhost:${PORT}`,
-    methods:"GET,POST,PUT,DELETE",
-    optionsSuccessStatus:200
+    methods:"GET, POST, PUT, DELETE"
 }))
 
 app.use(helmet())
@@ -66,26 +63,7 @@ app.use((req,res,next) => {
 
 app.use('/auth', routerAuth);
 
-app.use(async (req,res,next) => {
-    try {
-        jwt.verify(req.cookies.accessToken, process.env.JWT_SECRET as string);
-        next();
-    } catch(e) {
-        const auth = await Auth.findOne({accessToken:req.cookies.accessToken});
-        try {
-            jwt.verify(auth?.refreshToken as string, process.env.JWT_SECRET as string);
-            const accessToken = jwt.sign({name:req.body.name}, process.env.JWT_SECRET as string, {expiresIn:'1m'});
-            await Auth.create({
-                accessToken,
-                refreshToken:auth?.refreshToken,
-            })
-            req.cookies.accessToken = accessToken;
-            next();
-        } catch(e) {
-            res.send('Relogin')
-        }
-    }
-})
+app.use(authMiddleware)
 
 app.use('/chats', routerChat)
 app.use('/messages', routerMessages);
@@ -93,9 +71,32 @@ app.get('/test',(req,res) => {
     res.status(200).send('Work')
 })
 
-socket.on('connection',(socket) => {
-    console.log('connected')
+io.on('connection', async (socket: Socket) => {
+    socket.on('send-message', async (message: Message) => {
+        await Message.create({
+            message:message.message,
+            name:message.name,
+            chatId:message.chatId,
+            userId:message.userId,
+        });
+        const chat = await Message.find({chatId:message.chatId});
+        socket.emit('get-message',chat)
+    });
+    socket.on('update-message', async(message:Message) => {
+        console.log(message)
+        await Message.findByIdAndUpdate(message.messageId, {
+            message:message.message
+        });
+        const chat = await Message.find({chatId:message.chatId});
+        socket.emit('get-message',chat)
+    });
+    socket.on('delete-message',async (message:Message) => {
+        await Message.findByIdAndDelete(message.messageId);
+        const chat = await Message.find({chatId:message.chatId});
+        socket.emit('get-message',chat)
+    });
 })
+
 server.listen(PORT, () => {
   console.log(`Application listen http://localhost:${PORT}/`);
 });

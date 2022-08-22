@@ -11,12 +11,14 @@ routerChat
   .post("/", async (req, res) => {
     const create = await Chat.create({
       name: req.body.name,
+      users: [...JSON.parse(req.body.users)]
     });
     res.status(201).send(create);
   })
   .put("/:id", async (req, res) => {
     const updated = await Chat.findByIdAndUpdate(req.params.id, {
       name: req.body.name,
+      users: [...req.body.users]
     });
     res.status(200).send(updated);
   })

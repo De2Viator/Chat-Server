@@ -79,3 +79,24 @@ routerAuth
 .get('/google/failed', (_req,res)=> {
     res.send('Auth faile')
 })
+
+export const authMiddleware = async (req:Request,res:Response, next:any) => {
+    try {
+        jwt.verify(req.cookies.accessToken, process.env.JWT_SECRET as string);
+        next();
+    } catch(e) {
+        const auth = await Auth.findOne({accessToken:req.cookies.accessToken});
+        try {
+            jwt.verify(auth?.refreshToken as string, process.env.JWT_SECRET as string);
+            const accessToken = jwt.sign({name:req.body.name}, process.env.JWT_SECRET as string, {expiresIn:'1m'});
+            await Auth.create({
+                accessToken,
+                refreshToken:auth?.refreshToken,
+            })
+            req.cookies.accessToken = accessToken;
+            next();
+        } catch(e) {
+            res.send('Relogin')
+        }
+    }
+}

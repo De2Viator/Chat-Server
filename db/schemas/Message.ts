@@ -2,8 +2,10 @@ import { Model, model, Schema } from "mongoose";
 
 export interface Message {
     name:string,
-    chatId:string,
     message:string,
+    chatId:string,
+    userId:string,
+    messageId:string,
 }
 
 const MessageSchema:Schema<Message> = new Schema({
@@ -18,6 +20,10 @@ const MessageSchema:Schema<Message> = new Schema({
     chatId: {
         type:String,
         required:true,
+    },
+    userId:{
+        type: String,
+        required:true
     }
 },{
     collection:'Messages'

@@ -2,11 +2,16 @@ import { Model, model, Schema } from "mongoose";
 
 export interface Chat {
     name:string,
+    users:string[]
 }
 
 const ChatSchema:Schema<Chat> = new Schema({
     name: {
         type:String,
+        required:true,
+    },
+    users:{
+        type: [String],
         required:true,
     }
 },{
