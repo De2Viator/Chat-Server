@@ -72,6 +72,7 @@ app.get('/test',(req,res) => {
 })
 
 io.on('connection', async (socket: Socket) => {
+    let chatId = '';
     socket.on('send-message', async (message: Message) => {
         await Message.create({
             message:message.message,
@@ -79,21 +80,23 @@ io.on('connection', async (socket: Socket) => {
             chatId:message.chatId,
             userId:message.userId,
         });
-        const chat = await Message.find({chatId:message.chatId});
-        socket.emit('get-message',chat)
+        chatId = message.chatId
+        const chat = await Message.find({chatId:chatId});
+        io.emit('get-message',chat)
     });
     socket.on('update-message', async(message:Message) => {
-        console.log(message)
         await Message.findByIdAndUpdate(message.messageId, {
             message:message.message
         });
-        const chat = await Message.find({chatId:message.chatId});
-        socket.emit('get-message',chat)
+        chatId = message.chatId
+        const chat = await Message.find({chatId:chatId});
+        io.emit('get-message',chat)
     });
     socket.on('delete-message',async (message:Message) => {
         await Message.findByIdAndDelete(message.messageId);
-        const chat = await Message.find({chatId:message.chatId});
-        socket.emit('get-message',chat)
+        chatId = message.chatId
+        const chat = await Message.find({chatId:chatId});
+        io.emit('get-message',chat)
     });
 })
 
