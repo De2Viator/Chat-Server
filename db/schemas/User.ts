@@ -1,23 +1,48 @@
 import { Model, model, Schema } from "mongoose";
-
-export interface Users {
-    name:string,
-    password:string,
-    googleId:string,
-}
+import { Users } from "../../shared/models/user";
 
 const userSchema:Schema<Users> = new Schema({
-    name: {
+    email: {
         type:String,
-        required:false,
+        required: true,
     },
     password: {
         type: String,
-        required: false,
+        required: true,
     },
-    googleId: {
+    name: {
         type: String,
-        required: false,
+        required: true,
+    },
+    surname: {
+        type: String,
+        required: true,
+    },
+    nick: {
+        type: String,
+        required: true,
+    },
+    birthdayDate: {
+        type: String,
+        required: true,
+    },
+    description: {
+        type: String,
+        required: true,
+    },
+    hobbies: {
+        type: [String],
+        required: true,
+    },
+    photo:{
+        data:{
+            type:Buffer,
+            required:true,
+        },
+        contentType:{
+            type:String,
+            required: true,
+        }
     }
 },{
     collection:'Users'
