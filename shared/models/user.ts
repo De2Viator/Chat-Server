@@ -7,6 +7,10 @@ export interface Users {
   description: string;
   email: string;
   password: string;
-  photo:File;
+  photo:{
+    data:string;
+    contentType:string;
+  };
+  image:string;
   googleId?: string;
 }

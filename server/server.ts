@@ -14,10 +14,11 @@ import session from 'express-session';
 import passport from 'passport';
 import { Server, Socket } from "socket.io"; 
 import { Message } from '../db/schemas/Message';
+import { routerUser } from './routes/user';
 
 config();
 
-mongoose.connect(process.env.MONGO as string)
+mongoose.connect(process.env.MONGO as string,)
 const app: Application = express();
 const server = http.createServer(app);
 const io: Server = new Server(server);
@@ -63,10 +64,11 @@ app.use((req,res,next) => {
 
 app.use('/auth', routerAuth);
 
-app.use(authMiddleware)
+//app.use(authMiddleware)
 
-app.use('/chats', routerChat)
+app.use('/chats', routerChat);
 app.use('/messages', routerMessages);
+app.use('/users',routerUser);
 app.get('/test',(req,res) => {
     res.status(200).send('Work')
 })

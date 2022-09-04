@@ -36,7 +36,7 @@ const userSchema:Schema<Users> = new Schema({
     },
     photo:{
         data:{
-            type:Buffer,
+            type:String,
             required:true,
         },
         contentType:{

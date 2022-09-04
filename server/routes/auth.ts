@@ -1,7 +1,7 @@
 import { Auth } from "../../db/schemas/Auth";
 import { User } from "../../db/schemas/User";
 import jwt from 'jsonwebtoken';
-import express, { response } from "express";
+import express from "express";
 import crypto from 'crypto';
 import multer from 'multer';
 import { Request, Response } from "express";
@@ -30,17 +30,17 @@ routerAuth
             password,
             nick:req.body.nick,
             description:req.body.description,
-            birthdayDate:req.body.birthdayDate,
+            birthdayDate:new Date(req.body.birthdayDate).toISOString(),
             hobbies,
             name:req.body.name,
             surname:req.body.surname,
             photo:{
                 data:req.file?.filename,
-                contentType:'image/jpg'
+                contentType:req.file?.mimetype,
             }
         })
-        const accessToken = jwt.sign({email:req.body.email}, process.env.JWT_SECRET as string, {expiresIn:'120s'});
-        const refreshToken = jwt.sign({email:req.session.id}, process.env.JWT_SECRET as string, {expiresIn:'600s'});
+        const accessToken = jwt.sign({email:req.body.email}, process.env.JWT_SECRET as string, {expiresIn:'1d'});
+        const refreshToken = jwt.sign({email:req.session.id}, process.env.JWT_SECRET as string, {expiresIn:'365d'});
         await Auth.create({
             refreshToken,
             accessToken
@@ -92,7 +92,7 @@ export const authMiddleware = async (req:Request,res:Response, next:any) => {
             req.cookies.accessToken = accessToken;
             next();
         } catch(e) {
-            res.send('Relogin')
+            res.status(401).send('Relogin')
         }
     }
     next()
