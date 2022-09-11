@@ -95,5 +95,4 @@ export const authMiddleware = async (req:Request,res:Response, next:any) => {
             res.status(401).send('Relogin')
         }
     }
-    next()
 }

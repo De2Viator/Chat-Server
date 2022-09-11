@@ -64,7 +64,7 @@ app.use((req,res,next) => {
 
 app.use('/auth', routerAuth);
 
-//app.use(authMiddleware)
+app.use(authMiddleware)
 
 app.use('/chats', routerChat);
 app.use('/messages', routerMessages);
