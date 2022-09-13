@@ -51,7 +51,8 @@ app.use(express.urlencoded({
 }));
 
 app.use(cors({
-    methods:"GET, POST, PUT, DELETE"
+    origin:'http://localhost:8080',
+    credentials:true,
 }))
 
 app.use(helmet())
