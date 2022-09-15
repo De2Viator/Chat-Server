@@ -1,6 +1,7 @@
 import { Auth } from "../../db/schemas/Auth";
 import { User } from "../../db/schemas/User";
 import jwt from 'jsonwebtoken';
+import fs from 'fs';
 import express from "express";
 import crypto from 'crypto';
 import multer from 'multer';
@@ -48,7 +49,7 @@ routerAuth
         res.cookie('accessToken',accessToken);
         const responseUser = JSON.parse(JSON.stringify(user));
         delete responseUser.password;
-        delete responseUser.photo;
+        responseUser.photo.data= fs.readFileSync(`D:/Node/uploads/${responseUser.photo.data}`,'base64'); 
         res.send(responseUser)
     } else {
         res.status(401).send('This user was registered')
@@ -70,6 +71,7 @@ routerAuth
             refreshToken,
         })
         res.cookie('accessToken',accessToken);
+        responseUser.photo.data= fs.readFileSync(`D:/Node/uploads/${responseUser.photo.data}`,'base64'); 
         res.send(responseUser)
     } else {
         res.status(401).send('Email or password don\'t correct')
