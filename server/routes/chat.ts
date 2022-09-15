@@ -4,11 +4,11 @@ import express from "express";
 export const routerChat = express.Router();
 
 routerChat
-  .get("/", async (req, res) => {
-    const chats = await Chat.find();
+  .get("/:id", async (req, res) => {
+    const chats = await Chat.findById(req.params.id);
     res.status(200).send(chats);
   })
-  .post("/", async (req, res) => {
+  .post("/:id", async (req, res) => {
     const create = await Chat.create({
       name: req.body.name,
       users: [...JSON.parse(req.body.users)]
