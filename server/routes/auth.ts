@@ -78,7 +78,7 @@ routerAuth
     }
 })
 
-export const authMiddleware = async (req:Request,res:Response, next:any) => {
+export const authMiddleware = async (req:Request,res:Response, next:() => void) => {
     try {
         jwt.verify(req.cookies.accessToken, process.env.JWT_SECRET as string);
         next();

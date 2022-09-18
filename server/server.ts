@@ -15,13 +15,18 @@ import passport from 'passport';
 import { Server, Socket } from "socket.io"; 
 import { Message } from '../db/schemas/Message';
 import { routerUser } from './routes/user';
+import { Chat } from '../db/schemas/Chat';
 
 config();
 
 mongoose.connect(process.env.MONGO as string,)
 const app: Application = express();
 const server = http.createServer(app);
-const io: Server = new Server(server);
+const io: Server = new Server(server, {
+    cors:{
+        origin:process.env.ORIGIN
+    }
+});
 const PORT:string = process.env.PORT as string
 const logger:Logger = winston.createLogger({
     format:winston.format.simple(),
@@ -51,7 +56,7 @@ app.use(express.urlencoded({
 }));
 
 app.use(cors({
-    origin:'http://localhost:8080',
+    origin:process.env.ORIGIN,
     credentials:true,
 }))
 
@@ -77,27 +82,37 @@ app.get('/test',(req,res) => {
 io.on('connection', async (socket: Socket) => {
     let chatId = '';
     socket.on('send-message', async (message: Message) => {
+        let chat;
+        if(!message.chatId) {
+            chat = await Chat.create({
+                userId:message.userId,
+                partnerId: message.partnerId,
+                lastMessage: message.message,
+                messageDate: new Date().toISOString(),
+            })
+        } else {
+            chat = await Chat.findByIdAndUpdate(message.chatId, {
+                lastMessage: message.message,
+                messageDate: new Date().toISOString(),
+            })
+        }
         await Message.create({
             message:message.message,
-            name:message.name,
-            chatId:message.chatId,
             userId:message.userId,
+            chatId: message.chatId || chat?._id,
+            timeStamp: new Date().toISOString(),
         });
-        chatId = message.chatId
-        const chat = await Message.find({chatId:chatId});
         io.emit('get-message',chat)
     });
     socket.on('update-message', async(message:Message) => {
         await Message.findByIdAndUpdate(message.messageId, {
             message:message.message
         });
-        chatId = message.chatId
         const chat = await Message.find({chatId:chatId});
         io.emit('get-message',chat)
     });
     socket.on('delete-message',async (message:Message) => {
         await Message.findByIdAndDelete(message.messageId);
-        chatId = message.chatId
         const chat = await Message.find({chatId:chatId});
         io.emit('get-message',chat)
     });
