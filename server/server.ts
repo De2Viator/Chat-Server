@@ -16,6 +16,7 @@ import { Server, Socket } from "socket.io";
 import { Message } from '../db/schemas/Message';
 import { routerUser } from './routes/user';
 import { Chat } from '../db/schemas/Chat';
+import { User } from '../db/schemas/User';
 
 config();
 
@@ -63,7 +64,7 @@ app.use(cors({
 app.use(helmet())
 
 
-app.use((req,res,next) => {
+app.use((req,_,next) => {
     logger.log('info',`${req.method} ${req.url}`);
     next();
 })
@@ -75,20 +76,33 @@ app.use(authMiddleware)
 app.use('/chats', routerChat);
 app.use('/messages', routerMessages);
 app.use('/users',routerUser);
-app.get('/test',(req,res) => {
+app.get('/test',(_,res) => {
     res.status(200).send('Work')
 })
-
 io.on('connection', async (socket: Socket) => {
     let chatId = '';
     socket.on('send-message', async (message: Message) => {
         let chat;
         if(!message.chatId) {
+            const user = await User.findById(message.userId);
+            const partner = await User.findById(message.partnerId);
             chat = await Chat.create({
-                userId:message.userId,
-                partnerId: message.partnerId,
                 lastMessage: message.message,
                 messageDate: new Date().toISOString(),
+                type:'CHAT',
+                partner:{
+                    photo:partner?.photo,
+                    userId: partner?._id,
+                    name: partner?.name,
+                },
+                user: {
+                    photo: {
+                        data: partner?.photo.data,
+                        type: partner?.photo.contentType,
+                    },
+                    userId: partner?._id,
+                    name: user?.name,
+                }
             })
         } else {
             chat = await Chat.findByIdAndUpdate(message.chatId, {

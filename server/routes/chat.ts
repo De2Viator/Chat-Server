@@ -5,8 +5,8 @@ export const routerChat = express.Router();
 
 routerChat
   .get("/:id", async (req, res) => {
-    const chats = await Chat.find({userId: req.params.id});
-    res.status(200).send(chats);
+    let chats = await Chat.find({$or:[{userId: req.params.id}, {partnerId:req.params.id}]});
+    res.status(200).send(chats ?? []);
   })
   .delete("/:id", async (req, res) => {
     const deleted = await Chat.findByIdAndDelete(req.params.id);

@@ -1,21 +1,7 @@
 import { Model, model, Schema } from "mongoose";
+import { Chat as ChatType } from '../../shared/models/chat';
 
-export interface Chat {
-    userId: string;
-    partnerId: string;
-    lastMessage: string;
-    messageDate: string;
-}
-
-const ChatSchema:Schema<Chat> = new Schema({
-    userId: {
-        type:String,
-        required:true,
-    },
-    partnerId: {
-        type:String,
-        required:true,
-    },
+const ChatSchema:Schema<ChatType> = new Schema({
     lastMessage: {
         type: String,
         required: true,
@@ -23,9 +9,29 @@ const ChatSchema:Schema<Chat> = new Schema({
     messageDate: {
         type: String,
         required: true,
-    }
+    },
+    type: {
+        type:String,
+        required: true,
+    },
+    partner: {
+        name: String,
+        photo: {
+            contentType: String,
+            data: String,
+        },
+        userId: String,
+    },
+    user: {
+        name: String,
+        photo: {
+            contentType: String,
+            data: String,
+        },
+        userId: String,
+    },
 },{
     collection:'Chats',
 });
 
-export const Chat:Model<Chat> = model('Chat',ChatSchema)
+export const Chat:Model<ChatType> = model('Chat',ChatSchema)
