@@ -110,13 +110,13 @@ io.on('connection', async (socket: Socket) => {
                 messageDate: new Date().toISOString(),
             })
         }
-        await Message.create({
+        const response = await Message.create({
             message:message.message,
             userId:message.userId,
             chatId: message.chatId || chat?._id,
             timeStamp: new Date().toISOString(),
-        });
-        io.emit('get-message',chat)
+        })
+        io.emit('get-message', response)
     });
     socket.on('update-message', async(message:Message) => {
         await Message.findByIdAndUpdate(message.messageId, {
