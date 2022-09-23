@@ -18,6 +18,10 @@ const MessageSchema:Schema<Message> = new Schema({
         type: String,
         required:true
     },
+    partnerId:{
+        type: String,
+        required:true
+    },
     chatId: {
         type: String,
         required: false

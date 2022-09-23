@@ -103,7 +103,7 @@ io.on('connection', async (socket: Socket) => {
                     userId: partner?._id,
                     name: user?.name,
                 }
-            })
+            });
         } else {
             chat = await Chat.findByIdAndUpdate(message.chatId, {
                 lastMessage: message.message,
@@ -113,9 +113,10 @@ io.on('connection', async (socket: Socket) => {
         const response = await Message.create({
             message:message.message,
             userId:message.userId,
-            chatId: message.chatId || chat?._id,
+            partnerId: message.partnerId,
+            chatId: chat?._id,
             timeStamp: new Date().toISOString(),
-        })
+        });
         io.emit('get-message', response)
     });
     socket.on('update-message', async(message:Message) => {
