@@ -49,7 +49,7 @@ routerAuth
         res.cookie('accessToken',accessToken);
         const responseUser = JSON.parse(JSON.stringify(user));
         delete responseUser.password;
-        responseUser.photo.data= fs.readFileSync(`D:/Node/uploads/${responseUser.photo.data}`,'base64'); 
+        responseUser.photo.data= fs.readFileSync(process.env.FILES_PATH + responseUser.photo.data,'base64');
         res.send(responseUser)
     } else {
         res.status(401).send('This user was registered')
@@ -71,7 +71,7 @@ routerAuth
             refreshToken,
         })
         res.cookie('accessToken',accessToken);
-        responseUser.photo.data= fs.readFileSync(`D:/Node/uploads/${responseUser.photo.data}`,'base64'); 
+        responseUser.photo.data= fs.readFileSync(process.env.FILES_PATH + responseUser.photo.data,'base64');
         res.send(responseUser)
     } else {
         res.status(401).send('Email or password don\'t correct')
